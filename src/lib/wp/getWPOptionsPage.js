@@ -1,4 +1,4 @@
-import flattenACF from '../util/flattenACF'
+import flattenACF from './flattenACF'
 import makeRequest from '../makeRequest'
 
 export default function getWPOptionsPage (config, lang, options = {}) {

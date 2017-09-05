@@ -1,5 +1,5 @@
 import axios from 'axios'
-import makeRequest from './makeRequest'
+import makeRequest from '../makeRequest'
 
 /**
  * Fetch All Menus and embed items
