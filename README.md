@@ -2,19 +2,21 @@
 Generates multiple JSON files from fetching API endpoints (i18n supported) 🚀
 
 ## Installation
-```
+```bash
 yarn add github.com/wearelucid/api-fetcher#v0.1 #VERIFY
 ```
 
 ## Usage
-```
+```bash
 yarn fetch
 ```
 
 ## Example
 
-```
-import fetcher from './fetcher'
+### Full Example (Wordpress)
+
+```javascript
+import fetcher from 'api-fetcher'
 
 const config = {
   savePath: './static/data',
@@ -50,18 +52,25 @@ function _removeFieldsFromPost (data) {
 
 ```
 
-if you want to use it on multiple posts:
+### Generating Multiple Bundles
+If you want to generate multiple json bundles you can invoke `fetcher.bundle()` with different a name like so:
 
-```
+```javascript
 fetcher.bundle('pro', {
   posts: { method: fetcher.getWPPostType, postType: 'posts', transforms: [removeFieldsFromPost] },
   pages: { method: fetcher.getWPPostType, postType: 'pages', transforms: [removeFieldsFromPost] }
 }, config)
+```
 
+### TODO: Generating Paginated Collections
+You can also generated paginated collections like so
+```javascript
+fetcher.paginateWP('posts', { endpoint: '/wp/v2/posts' }, config)
+fetcher.paginateWP('page', { endpoint: '/wp/v2/posts' }, config)
+```
+This will generate a collection of json files:
+```bash
 posts.de.1.json
 posts.de.2.json
 posts.de.3.json
-
-fetcher.paginateWP('posts', { endpoint: '/wp/v2/posts' }, config)
-fetcher.paginateWP('page', { endpoint: '/wp/v2/posts' }, config)
 ```
