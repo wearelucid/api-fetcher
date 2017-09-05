@@ -6,16 +6,15 @@ import getWPPostType from './lib/wp/getWPPostType'
 import getWPOptionsPage from './lib/wp/getWPOptionsPage'
 import applyToOneOrMany from './lib/util/applyToOneOrMany'
 
-function fetcher (bundleName, fetchOptions, config) {
-  bundle(bundleName, fetchOptions, config)
+export const fetcher = {
+  bundle,
+  log,
+  makeRequest,
+  getWPMenus,
+  getWPPostType,
+  getWPOptionsPage,
+  applyToOneOrMany,
+  test: true
 }
-
-fetcher.bundle = bundle
-fetcher.log = log
-fetcher.makeRequest = makeRequest
-fetcher.getWPMenus = getWPMenus
-fetcher.getWPPostType = getWPPostType
-fetcher.getWPOptionsPage = getWPOptionsPage
-fetcher.applyToOneOrMany = applyToOneOrMany
 
 export default fetcher

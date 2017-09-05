@@ -23,7 +23,7 @@ function printConfig (config, configName) {
   console.log('')
 }
 
-export default {
+const log = {
   printText,
   printConfig,
   info: bows('fetcher 👉'),
@@ -31,3 +31,5 @@ export default {
   error: bows('fetcher ❌'),
   success: bows('fetcher ✅')
 }
+
+export default log
