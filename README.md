@@ -7,6 +7,21 @@ yarn add github.com/wearelucid/api-fetcher#v0.1 #VERIFY
 ```
 
 ## Usage
+Be aware that this package uses ES6 syntax!
+
+Add a script to your package.json
+```JSON
+"scripts": {
+  "fetch": "node fetchData.js"
+}
+```
+Since node currently does not support es2015 module syntax, we need to install [`babel-cli`](https://yarnpkg.com/en/package/babel-cli) and add the script like so:
+```JSON
+"scripts": {
+  "fetch": "babel-node --presets es2015 -- fetchData.js"
+}
+```
+
 ```bash
 yarn fetch
 ```
