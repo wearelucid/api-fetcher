@@ -2,7 +2,7 @@
   "name": "api-fetcher",
   "version": "1.0.1",
   "description": "Generates multiple JSON files from fetching API endpoints (i18n supported) 🚀",
-  "main": "index.js",
+  "main": "dist/api-fetcher.js",
   "repository": "https://github.com/wearelucid/api-fetcher.git",
   "author": "Lucid <buero@wearelucid.ch>",
   "license": "MIT",
@@ -21,6 +21,6 @@
     "browserify": "^14.4.0"
   },
   "scripts": {
-    "build": "mkdirp dist && browserify src/index.js -o dist/api-fetcher.min.js -t [ babelify --presets [ es2015 ] --plugins [ transform-object-rest-spread ] ]"
+    "build": "mkdirp dist && browserify src/index.js -o dist/api-fetcher.js -t [ babelify --presets [ es2015 ] --plugins [ transform-object-rest-spread ] ]"
   }
 }
