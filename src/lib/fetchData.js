@@ -6,7 +6,9 @@ import log from './logs'
  * Fetch data
  */
 export default function fetchData (config, language, fetchRoutes) {
-  const { lang, locale } = language
+  const lang = language && language.lang ? language.lang : false
+  const locale = language && language.locale ? language.locale : ''
+
   /**
    * Make All Requests
    */
