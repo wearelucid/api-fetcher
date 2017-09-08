@@ -3,7 +3,7 @@ Generates multiple JSON files from fetching API endpoints (i18n supported) 🚀
 
 ## Installation
 ```bash
-yarn add git+ssh://git@github.com:wearelucid/vue-mq#1.0.3
+yarn add git+ssh://git@github.com:wearelucid/vue-mq#1.0.4
 ```
 
 ## Usage

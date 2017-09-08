@@ -19,7 +19,10 @@ function flattenACF(data) {
 }
 
 function _flattenPost(post) {
-  var flatPost = _extends({}, post, post.acf);
-  delete flatPost.acf;
-  return flatPost;
+  if (post.acf) {
+    var flatPost = _extends({}, post, post.acf);
+    delete flatPost.acf;
+    return flatPost;
+  }
+  return post;
 }

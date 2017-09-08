@@ -1,6 +1,6 @@
 {
   "name": "api-fetcher",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Generates multiple JSON files from fetching API endpoints (i18n supported) 🚀",
   "main": "dist/index.js",
   "repository": "https://github.com/wearelucid/api-fetcher.git",
