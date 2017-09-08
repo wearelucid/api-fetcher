@@ -23,9 +23,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * Requires wp-api-menus plugin
  */
 function getWPMenus(config, lang) {
-  return _axios2.default.all([(0, _makeRequest2.default)(config, '/wp-api-menus/v2/menus?lang=' + lang), (0, _makeRequest2.default)(config, '/wp-api-menus/v2/menu-locations?lang=' + lang)]).then(_axios2.default.spread(function (menuList, locations) {
+  return _axios2.default.all([(0, _makeRequest2.default)(config, '/wp-api-menus/v2/menus' + (lang ? '?lang=' + lang : '')), (0, _makeRequest2.default)(config, '/wp-api-menus/v2/menu-locations' + (lang ? '?lang=' + lang : ''))]).then(_axios2.default.spread(function (menuList, locations) {
     return _axios2.default.all(menuList.map(function (m) {
-      return (0, _makeRequest2.default)(config, '/wp-api-menus/v2/menus/' + m.ID + '?lang=' + lang);
+      return (0, _makeRequest2.default)(config, '/wp-api-menus/v2/menus/' + m.ID + (lang ? '?lang=' + lang : ''));
     })).then(_axios2.default.spread(function () {
       for (var _len = arguments.length, menus = Array(_len), _key = 0; _key < _len; _key++) {
         menus[_key] = arguments[_key];

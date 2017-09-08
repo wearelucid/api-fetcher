@@ -35,9 +35,11 @@ function printConfig(config, configName) {
     return k.length > n ? k.length : n;
   }, 0);
   Object.keys(config).forEach(function (c) {
-    if (c === 'languages') return console.log('\uD83D\uDD27 \x1B[36m ' + c.padEnd(maxLength + 1) + ': \x1B[0m ' + config[c].map(function (l) {
-      return l.lang + ' (' + l.locale + ')';
-    }).join(', '));
+    if (c === 'languages' && config[c] && config[c].length) {
+      return console.log('\uD83D\uDD27 \x1B[36m ' + c.padEnd(maxLength + 1) + ': \x1B[0m ' + config[c].map(function (l) {
+        return l.lang + ' (' + l.locale + ')';
+      }).join(', '));
+    }
     console.log('\uD83D\uDD27 \x1B[36m ' + c.padEnd(maxLength + 1) + ': \x1B[0m ' + config[c] + ' ');
   });
   console.log('');

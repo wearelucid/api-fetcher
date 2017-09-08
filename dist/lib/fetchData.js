@@ -26,12 +26,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
  * Fetch data
  */
 function fetchData(config, language, fetchRoutes) {
-  var lang = language.lang,
-      locale = language.locale;
+  var lang = language && language.lang ? language.lang : false;
+  var locale = language && language.locale ? language.locale : '';
+
   /**
    * Make All Requests
    */
-
   return _axios2.default.all(Object.keys(fetchRoutes).map(function (f) {
     var _fetchRoutes$f = fetchRoutes[f],
         method = _fetchRoutes$f.method,

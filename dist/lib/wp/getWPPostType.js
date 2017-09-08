@@ -25,5 +25,5 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function getWPPostType(config, lang, options) {
-  return (0, _makeRequest2.default)(config, '/wp/v2/' + options.postType + '?per_page=' + config.perPage + '&lang=' + lang, _extends({}, options, { transforms: [_flattenACF2.default, _normalizeWordpress2.default].concat(_toConsumableArray(options.transforms || [])) }));
+  return (0, _makeRequest2.default)(config, '/wp/v2/' + options.postType + '?per_page=' + config.perPage + (lang ? '&lang=' + lang : ''), _extends({}, options, { transforms: [_flattenACF2.default, _normalizeWordpress2.default].concat(_toConsumableArray(options.transforms || [])) }));
 }

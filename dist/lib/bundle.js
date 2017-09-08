@@ -43,21 +43,30 @@ function bundle(bundleName, fetchOptions, _config) {
   /**
    * Fetch all languages
    */
-  Promise.all(config.languages.map(function (language) {
-    return (0, _fetchData2.default)(config, language, fetchOptions);
-  })).then(function (datas) {
-    datas.forEach(function (data) {
-      var json = JSON.stringify(data, null, config.compressJSON ? null : 2);
-      var jsonSizeKB = Math.round(Buffer.byteLength(json, 'utf8') / 1024 * 100) / 100;
-
-      _logs2.default.info('Writing ' + bundleName + '.' + data.language + '.json  (Length: ' + json.length + ', Size: ' + jsonSizeKB + 'kB)');
-
-      _fs2.default.writeFile(config.savePath + '/' + bundleName + '.' + data.language + '.json', json, 'utf-8', function (err) {
-        if (err) return console.error(err);
-        _logs2.default.success('Wrote to ' + config.savePath + '/' + bundleName + '.' + data.language + '.json successfully!');
-      });
+  if (config.languages && config.languages.length) {
+    Promise.all(config.languages.map(function (language) {
+      return (0, _fetchData2.default)(config, language, fetchOptions);
+    })).then(function (datas) {
+      datas.forEach(saveFile);
+      _logs2.default.success('DONE.');
     });
+  } else {
+    (0, _fetchData2.default)(config, false, fetchOptions).then(function (data) {
+      saveFile(data);
+      _logs2.default.success('DONE.');
+    });
+  }
 
-    _logs2.default.success('DONE.');
-  });
+  function saveFile(data) {
+    var json = JSON.stringify(data, null, config.compressJSON ? null : 2);
+    var jsonSizeKB = Math.round(Buffer.byteLength(json, 'utf8') / 1024 * 100) / 100;
+    var fileName = '' + bundleName + (data.language ? '.' + data.language : '') + '.json';
+
+    _logs2.default.info('Writing ' + fileName + ' (Length: ' + json.length + ', Size: ' + jsonSizeKB + 'kB)');
+
+    _fs2.default.writeFile(config.savePath + '/' + fileName, json, 'utf-8', function (err) {
+      if (err) return console.error(err);
+      _logs2.default.success('Wrote to ' + config.savePath + '/' + fileName + ' successfully!');
+    });
+  }
 }

@@ -23,5 +23,5 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 function getWPOptionsPage(config, lang) {
   var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-  return (0, _makeRequest2.default)(config, '/acf/v3/options/' + options.slug + '?lang=' + lang, _extends({}, options, { transforms: [_flattenACF2.default].concat(_toConsumableArray(options.transforms || [])) }));
+  return (0, _makeRequest2.default)(config, '/acf/v3/options/' + options.slug + (lang ? '?lang=' + lang : ''), _extends({}, options, { transforms: [_flattenACF2.default].concat(_toConsumableArray(options.transforms || [])) }));
 }
