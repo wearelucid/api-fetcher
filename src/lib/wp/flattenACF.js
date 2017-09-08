@@ -5,7 +5,10 @@ export default function flattenACF (data) {
 }
 
 function _flattenPost (post) {
-  const flatPost = { ...post, ...post.acf }
-  delete flatPost.acf
-  return flatPost
+  if (post.acf) {
+    const flatPost = { ...post, ...post.acf }
+    delete flatPost.acf
+    return flatPost
+  }
+  return post
 }
