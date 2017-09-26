@@ -9,8 +9,12 @@ export default function makeRequest (config, path, options = {}) {
   .then((response) => {
     log.request(response.status, ' ' + response.request.path)
     if (options.transforms) {
-      const newData = options.transforms.reduce((data, t) => t(data), response.data)
-      response.data = newData
+      const transformedData = options.transforms.reduce((data, transform) => transform(data), response.data)
+      response.data = transformedData
+    }
+    if (options.filters) {
+      const filteredData = options.filters.reduce((data, filter) => filter(data), response.data)
+      response.data = filteredData
     }
     return response.data
   })
