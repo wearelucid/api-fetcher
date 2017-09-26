@@ -18,7 +18,7 @@ Add a script to your package.json
 Since node currently does not support es2015 module syntax, we need to install [`babel-cli`](https://yarnpkg.com/en/package/babel-cli) and add the script like so:
 ```JSON
 "scripts": {
-  "fetch": "babel-node --presets es2015 -- fetchData.js"
+  "fetch": "babel-node --presets env -- fetchData.js"
 }
 ```
 
@@ -48,10 +48,17 @@ fetcher.log.printText('Lucid')
 fetcher.log.printConfig(config)
 
 fetcher.bundle('basic', {
-  pages: { method: fetcher.getWPPostType, postType: 'pages', transforms: [removeFieldsFromPost] },
+  pages: { method: fetcher.getWPPostType, postType: 'pages', transforms: [removeFieldsFromPost], filters: [showOnlyPublished] },
   menus: { method: fetcher.getWPMenus },
   options: { method: fetcher.getWPOptionsPage, slug: 'options' }
 }, config)
+
+/**
+* Filter (Note: This filter is an example. It is not needed. Wordpress by default only delivers published posts and pages)
+*/
+function showOnlyPublished (data) {
+  return (data && data.length) ? data.filter(p => p.status === 'publish') : data
+}
 
 /**
 * Delete fields we don't need (anymore)
