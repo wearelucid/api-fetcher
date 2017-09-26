@@ -1,6 +1,6 @@
 {
   "name": "api-fetcher",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Generates multiple JSON files from fetching API endpoints (i18n supported) 🚀",
   "main": "dist/index.js",
   "repository": "https://github.com/wearelucid/api-fetcher.git",
@@ -15,7 +15,7 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "*"
+    "babel-preset-env": "^1.6.0"
   },
   "scripts": {
     "build": "babel src --presets=babel-preset-env --plugins=babel-plugin-transform-object-rest-spread --out-dir dist"
