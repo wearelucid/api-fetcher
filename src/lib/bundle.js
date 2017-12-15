@@ -5,7 +5,6 @@ import fetchData from './fetchData'
 
 export default function bundle (bundleName, fetchOptions, _config) {
   const config = {
-    languages: [{ lang: 'en', locale: 'en_US' }],
     savePath: './data',
     ..._config
   }

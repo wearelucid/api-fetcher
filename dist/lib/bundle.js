@@ -28,7 +28,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function bundle(bundleName, fetchOptions, _config) {
   var config = _extends({
-    languages: [{ lang: 'en', locale: 'en_US' }],
     savePath: './data'
   }, _config);
 
