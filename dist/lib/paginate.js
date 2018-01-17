@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-exports.default = bundle;
+exports.default = paginate;
 
 var _mkdirp = require('mkdirp');
 
@@ -24,9 +24,13 @@ var _fetchData = require('./fetchData');
 
 var _fetchData2 = _interopRequireDefault(_fetchData);
 
+var _lodash = require('lodash.clonedeep');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function bundle(bundleName, fetchOptions, _config) {
+function paginate(bundleName, fetchOptions, _config) {
   var config = _extends({
     savePath: './data'
   }, _config);
@@ -55,8 +59,29 @@ function bundle(bundleName, fetchOptions, _config) {
       _logs2.default.success('DONE.');
     });
   }
+  // fetchAllLanguages(config)
 
   function saveDataToFile(data) {
-    (0, _saveFiles2.default)(data, bundleName, config);
+    var dataClone = (0, _lodash2.default)(data);
+    var count = 10;
+    var total = dataClone.posts.length;
+    var slice = Math.ceil(total / count);
+    var from = 0;
+    for (var i = 1; i <= slice; i++) {
+      (0, _saveFiles2.default)({
+        total: total,
+        from: from,
+        count: count,
+        language: data.language,
+        posts: data.posts.slice(from, i * 10)
+      }, bundleName, config, i);
+      _logs2.default.info(from + ', ' + count * i + ' neu');
+      from = from + count;
+    }
+
+    // creates json for every single post
+    // data.posts.forEach(function(post, i) {
+    //  saveFiles(data, bundleName, config, i)
+    // })
   }
 }

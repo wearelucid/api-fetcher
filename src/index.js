@@ -1,4 +1,5 @@
 import bundle from './lib/bundle'
+import paginate from './lib/paginate'
 import log from './lib/logs'
 import makeRequest from './lib/makeRequest'
 import getWPMenus from './lib/wp/getWPMenus'
@@ -8,6 +9,7 @@ import applyToOneOrMany from './lib/util/applyToOneOrMany'
 
 export const fetcher = {
   bundle,
+  paginate,
   log,
   makeRequest,
   getWPMenus,
