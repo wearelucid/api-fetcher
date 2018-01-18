@@ -67,7 +67,7 @@ function paginate(bundleName, fetchOptions, _config) {
    */
   function saveDataToFile(data) {
     var dataClone = (0, _lodash2.default)(data); // deep clone the data in order to do calculations
-    var count = 10; // how many posts per page
+    var count = _config.postsPerPage ? _config.postsPerPage : 10; // how many posts per page, default 10
     var total = dataClone.posts.length; // total posts length
     var slice = Math.ceil(total / count); // round up slices (101 posts will be 11 pages – last page with 1 post)
     var from = 0;
