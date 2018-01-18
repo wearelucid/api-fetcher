@@ -24,16 +24,21 @@ export default function bundle (bundleName, fetchOptions, _config) {
     Promise.all(
       config.languages.map(language => fetchData(config, language, fetchOptions))
     ).then((datas) => {
+      // for each lang save files
       datas.forEach(saveDataToFile)
       log.success('DONE.')
     })
   } else {
     fetchData(config, false, fetchOptions).then((data) => {
+      // if one language, only save this lang
       saveDataToFile(data)
       log.success('DONE.')
     })
   }
 
+  /**
+   * Save files (in this case as a bundle)
+   */
   function saveDataToFile (data) {
     saveFiles(data, bundleName, config)
   }

@@ -25,39 +25,42 @@ export default function paginate (bundleName, fetchOptions, _config) {
      Promise.all(
        config.languages.map(language => fetchData(config, language, fetchOptions))
      ).then((datas) => {
+       // for each lang save files
        datas.forEach(saveDataToFile)
        log.success('DONE.')
      })
    } else {
      fetchData(config, false, fetchOptions).then((data) => {
+       // if one language, only save this lang
        saveDataToFile(data)
        log.success('DONE.')
      })
    }
-  // fetchAllLanguages(config)
 
+   /**
+    * Save files (in this case paginated)
+    */
   function saveDataToFile (data) {
-    const dataClone = cloneDeep(data)
-    const count = 10
-    const total = dataClone.posts.length
-    const slice = Math.ceil(total / count)
+    const dataClone = cloneDeep(data) // deep clone the data in order to do calculations
+    const count = 10 // how many posts per page
+    const total = dataClone.posts.length // total posts length
+    const slice = Math.ceil(total / count) // round up slices (101 posts will be 11 pages – last page with 1 post)
     let from = 0
     for (var i = 1; i <= slice; i++) {
+      // if provied a pagination (i) the file will be saved paginated.
       saveFiles(
         {
+          // custom attributes we can set here
           total: total,
           from: from,
           count: count,
           language: data.language,
-          posts: data.posts.slice(from, i*10)
+          // slice the posts correctly based on the from/count
+          posts: data.posts.slice(from, i*count)
         }, bundleName, config, i)
-      log.info(`${from}, ${count*i} neu`)
+      // iterate from value (like: 0, 10, 20, …)
+      // the form/count values will be like (0-10, 10-20, 20-30, …)
       from = from + count
     }
-
-    // creates json for every single post
-    // data.posts.forEach(function(post, i) {
-    //  saveFiles(data, bundleName, config, i)
-    // })
   }
 }
