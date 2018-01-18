@@ -50,38 +50,41 @@ function paginate(bundleName, fetchOptions, _config) {
     Promise.all(config.languages.map(function (language) {
       return (0, _fetchData2.default)(config, language, fetchOptions);
     })).then(function (datas) {
+      // for each lang save files
       datas.forEach(saveDataToFile);
       _logs2.default.success('DONE.');
     });
   } else {
     (0, _fetchData2.default)(config, false, fetchOptions).then(function (data) {
+      // if one language, only save this lang
       saveDataToFile(data);
       _logs2.default.success('DONE.');
     });
   }
-  // fetchAllLanguages(config)
 
+  /**
+   * Save files (in this case paginated)
+   */
   function saveDataToFile(data) {
-    var dataClone = (0, _lodash2.default)(data);
-    var count = 10;
-    var total = dataClone.posts.length;
-    var slice = Math.ceil(total / count);
+    var dataClone = (0, _lodash2.default)(data); // deep clone the data in order to do calculations
+    var count = 10; // how many posts per page
+    var total = dataClone.posts.length; // total posts length
+    var slice = Math.ceil(total / count); // round up slices (101 posts will be 11 pages – last page with 1 post)
     var from = 0;
     for (var i = 1; i <= slice; i++) {
+      // if provied a pagination (i) the file will be saved paginated.
       (0, _saveFiles2.default)({
+        // custom attributes we can set here
         total: total,
         from: from,
         count: count,
         language: data.language,
-        posts: data.posts.slice(from, i * 10)
+        // slice the posts correctly based on the from/count
+        posts: data.posts.slice(from, i * count)
       }, bundleName, config, i);
-      _logs2.default.info(from + ', ' + count * i + ' neu');
+      // iterate from value (like: 0, 10, 20, …)
+      // the form/count values will be like (0-10, 10-20, 20-30, …)
       from = from + count;
     }
-
-    // creates json for every single post
-    // data.posts.forEach(function(post, i) {
-    //  saveFiles(data, bundleName, config, i)
-    // })
   }
 }

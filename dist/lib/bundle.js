@@ -46,16 +46,21 @@ function bundle(bundleName, fetchOptions, _config) {
     Promise.all(config.languages.map(function (language) {
       return (0, _fetchData2.default)(config, language, fetchOptions);
     })).then(function (datas) {
+      // for each lang save files
       datas.forEach(saveDataToFile);
       _logs2.default.success('DONE.');
     });
   } else {
     (0, _fetchData2.default)(config, false, fetchOptions).then(function (data) {
+      // if one language, only save this lang
       saveDataToFile(data);
       _logs2.default.success('DONE.');
     });
   }
 
+  /**
+   * Save files (in this case as a bundle)
+   */
   function saveDataToFile(data) {
     (0, _saveFiles2.default)(data, bundleName, config);
   }
