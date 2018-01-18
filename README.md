@@ -37,6 +37,7 @@ const config = {
   savePath: './static/data',
   compressJSON: true, // setting this to false may help debugging :-)
   perPage: 5000, // arbitrary
+  postsPerPage: 10, // set for paginated posts (default will automatically be 10)
   languages: [
     { lang: 'de', locale: 'de_CH' },
     { lang: 'en', locale: 'en_US' }
@@ -47,6 +48,10 @@ const config = {
 fetcher.log.printText('Lucid')
 fetcher.log.printConfig(config)
 
+// fetch paginated posts
+fetcher.paginate('posts', { posts: { method: fetcher.getWPPostType, postType: 'posts', transforms: [removeFieldsFromPost] } },
+
+// fetch bundled data
 fetcher.bundle('basic', {
   pages: { method: fetcher.getWPPostType, postType: 'pages', transforms: [removeFieldsFromPost], filters: [showOnlyPublished] },
   menus: { method: fetcher.getWPMenus },
@@ -84,11 +89,16 @@ fetcher.bundle('pro', {
 }, config)
 ```
 
-### TODO: Generating Paginated Collections
+### Generating Paginated Collections
 You can also generated paginated collections like so
 ```javascript
-fetcher.paginateWP('posts', { endpoint: '/wp/v2/posts' }, config)
-fetcher.paginateWP('page', { endpoint: '/wp/v2/posts' }, config)
+fetcher.paginate('posts', { posts: { method: fetcher.getWPPostType, postType: 'posts', transforms: [removeFieldsFromPost] } }, config)
+fetcher.paginate('pages', { pages: { method: fetcher.getWPPostType, postType: 'pages', transforms: [removeFieldsFromPost] } }, config)
+```
+Default posts per page will be set to `10`.
+You can provide the variable `postsPerPage` inside your config.
+```
+postsPerPage: 10
 ```
 This will generate a collection of json files:
 ```bash
