@@ -76,7 +76,8 @@ function paginate(bundleName, fetchOptions, _config) {
       (0, _saveFiles2.default)({
         // custom attributes we can set inside postsInformation
         postsInformation: {
-          total: total,
+          totalPosts: total,
+          totalPages: slice,
           from: from,
           count: count
         },

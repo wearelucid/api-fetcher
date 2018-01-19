@@ -52,7 +52,8 @@ export default function paginate (bundleName, fetchOptions, _config) {
         {
           // custom attributes we can set inside postsInformation
           postsInformation: {
-            total: total,
+            totalPosts: total,
+            totalPages: slice,
             from: from,
             count: count,
           },
