@@ -29,6 +29,10 @@ var _getWPPostType = require('./lib/wp/getWPPostType');
 
 var _getWPPostType2 = _interopRequireDefault(_getWPPostType);
 
+var _getWPPostTypePaginated = require('./lib/wp/getWPPostTypePaginated');
+
+var _getWPPostTypePaginated2 = _interopRequireDefault(_getWPPostTypePaginated);
+
 var _getWPOptionsPage = require('./lib/wp/getWPOptionsPage');
 
 var _getWPOptionsPage2 = _interopRequireDefault(_getWPOptionsPage);
@@ -46,6 +50,7 @@ var fetcher = exports.fetcher = {
   makeRequest: _makeRequest2.default,
   getWPMenus: _getWPMenus2.default,
   getWPPostType: _getWPPostType2.default,
+  getWPPostTypePaginated: _getWPPostTypePaginated2.default,
   getWPOptionsPage: _getWPOptionsPage2.default,
   applyToOneOrMany: _applyToOneOrMany2.default,
   test: true

@@ -50,10 +50,12 @@ export default function paginate (bundleName, fetchOptions, _config) {
       // if provied a pagination (i) the file will be saved paginated.
       saveFiles(
         {
-          // custom attributes we can set here
-          total: total,
-          from: from,
-          count: count,
+          // custom attributes we can set inside postsInformation
+          postsInformation: {
+            total: total,
+            from: from,
+            count: count,
+          },
           language: data.language,
           // slice the posts correctly based on the from/count
           posts: data.posts.slice(from, i*count)
