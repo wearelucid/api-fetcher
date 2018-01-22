@@ -4,7 +4,6 @@ import log from './lib/logs'
 import makeRequest from './lib/makeRequest'
 import getWPMenus from './lib/wp/getWPMenus'
 import getWPPostType from './lib/wp/getWPPostType'
-import getWPPostTypePaginated from './lib/wp/getWPPostTypePaginated'
 import getWPOptionsPage from './lib/wp/getWPOptionsPage'
 import applyToOneOrMany from './lib/util/applyToOneOrMany'
 
@@ -15,7 +14,6 @@ export const fetcher = {
   makeRequest,
   getWPMenus,
   getWPPostType,
-  getWPPostTypePaginated,
   getWPOptionsPage,
   applyToOneOrMany,
   test: true
