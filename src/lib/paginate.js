@@ -42,7 +42,7 @@ export default function paginate (bundleName, fetchOptions, _config) {
     */
   function saveDataToFile (data) {
     const dataClone = cloneDeep(data) // deep clone the data in order to do calculations
-    const itemCount = _config.postsPerPage ? _config.postsPerPage : 10 // how many posts per page, default 10
+    const itemCount = _config.itemsPerPage ? _config.itemsPerPage : 10 // how many posts per page, default 10
     const itemsTotal = dataClone[bundleName].length // itemsTotal posts length
     const slice = Math.ceil(itemsTotal / itemCount) // round up slices (101 posts will be 11 pages – last page with 1 post)
     let from = 0
