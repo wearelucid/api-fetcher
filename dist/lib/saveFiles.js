@@ -18,10 +18,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 /**
  * Save files
  */
-function saveFiles(data, bundleName, config, paginated) {
+function saveFiles(data, bundleName, config, pageNumber) {
   var json = JSON.stringify(data, null, config.compressJSON ? null : 2);
   var jsonSizeKB = Math.round(Buffer.byteLength(json, 'utf8') / 1024 * 100) / 100;
-  var fileName = '' + bundleName + (data.language ? '.' + data.language : '') + (paginated ? '.' + paginated : '') + '.json';
+  var fileName = '' + bundleName + (data.language ? '.' + data.language : '') + (pageNumber ? '.' + pageNumber : '') + '.json';
 
   _logs2.default.info('Writing ' + fileName + ' (Length: ' + json.length + ', Size: ' + jsonSizeKB + 'kB)');
 

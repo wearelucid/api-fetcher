@@ -67,14 +67,13 @@ function paginate(bundleName, fetchOptions, _config) {
    */
   function saveDataToFile(data) {
     var dataClone = (0, _lodash2.default)(data); // deep clone the data in order to do calculations
-    var itemCount = _config.postsPerPage ? _config.postsPerPage : 10; // how many posts per page, default 10
-    var itemsTotal = dataClone[bundleName].length; // itemsTotal posts length
-    var slice = Math.ceil(itemsTotal / itemCount); // round up slices (101 posts will be 11 pages – last page with 1 post)
+    var itemCount = _config.itemsPerPage ? _config.itemsPerPage : 10; // how many items per page, default 10
+    var itemsTotal = dataClone[bundleName].length; // itemsTotal - items length
+    var slice = Math.ceil(itemsTotal / itemCount); // round up slices (101 items will be 11 pages – last page with 1 item)
     var from = 0;
     for (var i = 1; i <= slice; i++) {
-      // if provied a pagination (i) the file will be saved paginated.
       (0, _saveFiles2.default)({
-        // custom attributes we can set inside postsInformation
+        // custom attributes we can set inside paginatedProps
         paginatedProps: {
           pagesTotal: slice,
           page: i,
@@ -84,7 +83,7 @@ function paginate(bundleName, fetchOptions, _config) {
         },
         // language will only be used to create the file name
         language: data.language,
-        // all posts as items correctly sliced
+        // all items as items correctly sliced
         items: data[bundleName].slice(from, i * itemCount)
       }, bundleName, config, i);
       // iterate from value (like: 0, 10, 20, …)
