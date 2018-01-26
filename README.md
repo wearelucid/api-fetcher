@@ -1,5 +1,5 @@
 # Api fetcher
-Generates multiple JSON files from fetching API endpoints (i18n supported) 🚀
+Generates multiple JSON files from fetching (WordPress) API endpoints (i18n supported) 🚀
 
 ## Installation
 ```bash
