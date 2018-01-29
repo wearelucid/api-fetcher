@@ -21,18 +21,22 @@ export default function bundle (bundleName, fetchOptions, _config) {
    * Fetch all languages
    */
   if (config.languages && config.languages.length) {
+
     Promise.all(
       config.languages.map(language => fetchData(config, language, fetchOptions))
     ).then((datas) => {
       // for each lang save files
-      datas.forEach(saveDataToFile)
-      log.success('DONE.')
+      return Promise.all( // resolves an array of promises
+        datas.map((data) => { // returns array of all promises from all saveDataToFile()-calls
+          return saveDataToFile(data)
+        })
+      ).then(() => log.success('DONE.')) // is called when all promises are resolved (here: all files are saved)
+      // for each lang save files
     })
   } else {
     fetchData(config, false, fetchOptions).then((data) => {
       // if one language, only save this lang
-      saveDataToFile(data)
-      log.success('DONE.')
+      saveDataToFile(data).then(()=>log.success('DONE.'))
     })
   }
 
@@ -40,6 +44,6 @@ export default function bundle (bundleName, fetchOptions, _config) {
    * Save files (in this case as a bundle)
    */
   function saveDataToFile (data) {
-    saveFiles(data, bundleName, config)
+    return saveFiles(data, bundleName, config)
   }
 }

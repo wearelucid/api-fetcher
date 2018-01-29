@@ -43,18 +43,26 @@ function bundle(bundleName, fetchOptions, _config) {
    * Fetch all languages
    */
   if (config.languages && config.languages.length) {
+
     Promise.all(config.languages.map(function (language) {
       return (0, _fetchData2.default)(config, language, fetchOptions);
     })).then(function (datas) {
       // for each lang save files
-      datas.forEach(saveDataToFile);
-      _logs2.default.success('DONE.');
+      return Promise.all( // resolves an array of promises
+      datas.map(function (data) {
+        // returns array of all promises from all saveDataToFile()-calls
+        return saveDataToFile(data);
+      })).then(function () {
+        return _logs2.default.success('DONE.');
+      }); // is called when all promises are resolved (here: all files are saved)
+      // for each lang save files
     });
   } else {
     (0, _fetchData2.default)(config, false, fetchOptions).then(function (data) {
       // if one language, only save this lang
-      saveDataToFile(data);
-      _logs2.default.success('DONE.');
+      saveDataToFile(data).then(function () {
+        return _logs2.default.success('DONE.');
+      });
     });
   }
 
@@ -62,6 +70,6 @@ function bundle(bundleName, fetchOptions, _config) {
    * Save files (in this case as a bundle)
    */
   function saveDataToFile(data) {
-    (0, _saveFiles2.default)(data, bundleName, config);
+    return (0, _saveFiles2.default)(data, bundleName, config);
   }
 }

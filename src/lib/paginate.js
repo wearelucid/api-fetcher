@@ -2,7 +2,6 @@ import mkdirp from 'mkdirp'
 import log from './logs'
 import saveFiles from './saveFiles'
 import fetchData from './fetchData'
-import cloneDeep from 'lodash.clonedeep'
 
 export default function paginate (bundleName, fetchOptions, _config) {
   const config = {
@@ -26,14 +25,17 @@ export default function paginate (bundleName, fetchOptions, _config) {
        config.languages.map(language => fetchData(config, language, fetchOptions))
      ).then((datas) => {
        // for each lang save files
-       datas.forEach(saveDataToFile)
-       log.success('DONE.')
+       return Promise.all( // resolves an array of promises
+         datas.map((data) => { // returns array of all promises from all saveDataToFile()-calls
+           return saveDataToFile(data)
+         })
+       ).then(() => log.success('DONE.')) // is called when all promises are resolved (here: all files are saved)
+       // for each lang save files
      })
    } else {
      fetchData(config, false, fetchOptions).then((data) => {
        // if one language, only save this lang
-       saveDataToFile(data)
-       log.success('DONE.')
+       saveDataToFile(data).then(()=>log.success('DONE.'))
      })
    }
 
@@ -41,30 +43,34 @@ export default function paginate (bundleName, fetchOptions, _config) {
     * Save files (in this case paginated)
     */
   function saveDataToFile (data) {
-    const dataClone = cloneDeep(data) // deep clone the data in order to do calculations
     const itemCount = _config.itemsPerPage ? _config.itemsPerPage : 10 // how many items per page, default 10
-    const itemsTotal = dataClone[bundleName].length // itemsTotal - items length
-    const slice = Math.ceil(itemsTotal / itemCount) // round up slices (101 items will be 11 pages – last page with 1 item)
+    const itemsTotal = data[bundleName].length // itemsTotal (items length)
+    const slices = Math.ceil(itemsTotal / itemCount) // round up slices (101 items will be 11 pages – last page with 1 item)
     let from = 0
-    for (var i = 1; i <= slice; i++) {
-      saveFiles(
-        {
-          // custom attributes we can set inside paginatedProps
-          paginatedProps: {
-            pagesTotal: slice,
-            page: i,
-            from: from,
-            itemCount: itemCount,
-            itemsTotal: itemsTotal
-          },
-          // language will only be used to create the file name
-          language: data.language,
-          // all items as items correctly sliced
-          items: data[bundleName].slice(from, i*itemCount)
-        }, bundleName, config, i)
-      // iterate from value (like: 0, 10, 20, …)
-      // the form/itemCount values will be like (0-10, 10-20, 20-30, …)
-      from = from + itemCount
-    }
+    const arrayMapLength = data[bundleName].slice(from, itemCount) // get array map length
+
+    return Promise.all(
+      arrayMapLength.map((a, index) => { // returns array of all promises from all saveDataToFile()-calls
+        index += 1
+        return saveFiles(
+          {
+            // custom attributes we can set inside paginatedProps
+            paginatedProps: {
+              pagesTotal: slices,
+              page: index,
+              from: from,
+              itemCount: itemCount,
+              itemsTotal: itemsTotal
+            },
+            // language will only be used to create the file name
+            language: data.language,
+            // all items as items correctly sliced
+            items: data[bundleName].slice(from, index*itemCount)
+          }, bundleName, config, index)
+          // iterate from value (like: 0, 10, 20, …)
+          // the form/itemCount values will be like (0-10, 10-20, 20-30, …)
+          from = from + itemCount
+      })
+    ).then(() => log.success('DONE.'))
   }
 }

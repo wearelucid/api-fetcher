@@ -10,7 +10,6 @@
     "axios": "^0.16.2",
     "bows": "^1.7.0",
     "figlet": "^1.2.0",
-    "lodash.clonedeep": "^4.5.0",
     "mkdirp": "^0.5.1"
   },
   "devDependencies": {

@@ -51,14 +51,21 @@ function paginate(bundleName, fetchOptions, _config) {
       return (0, _fetchData2.default)(config, language, fetchOptions);
     })).then(function (datas) {
       // for each lang save files
-      datas.forEach(saveDataToFile);
-      _logs2.default.success('DONE.');
+      return Promise.all( // resolves an array of promises
+      datas.map(function (data) {
+        // returns array of all promises from all saveDataToFile()-calls
+        return saveDataToFile(data);
+      })).then(function () {
+        return _logs2.default.success('DONE.');
+      }); // is called when all promises are resolved (here: all files are saved)
+      // for each lang save files
     });
   } else {
     (0, _fetchData2.default)(config, false, fetchOptions).then(function (data) {
       // if one language, only save this lang
-      saveDataToFile(data);
-      _logs2.default.success('DONE.');
+      saveDataToFile(data).then(function () {
+        return _logs2.default.success('DONE.');
+      });
     });
   }
 
@@ -68,15 +75,19 @@ function paginate(bundleName, fetchOptions, _config) {
   function saveDataToFile(data) {
     var dataClone = (0, _lodash2.default)(data); // deep clone the data in order to do calculations
     var itemCount = _config.itemsPerPage ? _config.itemsPerPage : 10; // how many items per page, default 10
-    var itemsTotal = dataClone[bundleName].length; // itemsTotal - items length
-    var slice = Math.ceil(itemsTotal / itemCount); // round up slices (101 items will be 11 pages – last page with 1 item)
+    var itemsTotal = data[bundleName].length; // itemsTotal (items length)
+    var slices = Math.ceil(itemsTotal / itemCount); // round up slices (101 items will be 11 pages – last page with 1 item)
     var from = 0;
-    for (var i = 1; i <= slice; i++) {
-      (0, _saveFiles2.default)({
+    var arrayMapLength = data[bundleName].slice(from, itemCount); // get array map length
+
+    return Promise.all(arrayMapLength.map(function (a, index) {
+      // returns array of all promises from all saveDataToFile()-calls
+      index += 1;
+      return (0, _saveFiles2.default)({
         // custom attributes we can set inside paginatedProps
         paginatedProps: {
-          pagesTotal: slice,
-          page: i,
+          pagesTotal: slices,
+          page: index,
           from: from,
           itemCount: itemCount,
           itemsTotal: itemsTotal
@@ -84,11 +95,13 @@ function paginate(bundleName, fetchOptions, _config) {
         // language will only be used to create the file name
         language: data.language,
         // all items as items correctly sliced
-        items: data[bundleName].slice(from, i * itemCount)
-      }, bundleName, config, i);
+        items: data[bundleName].slice(from, index * itemCount)
+      }, bundleName, config, index);
       // iterate from value (like: 0, 10, 20, …)
       // the form/itemCount values will be like (0-10, 10-20, 20-30, …)
       from = from + itemCount;
-    }
+    })).then(function () {
+      return _logs2.default.success('DONE.');
+    });
   }
 }
