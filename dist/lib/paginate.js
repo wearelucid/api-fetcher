@@ -59,9 +59,7 @@ function paginate(bundleName, fetchOptions, _config) {
   } else {
     (0, _fetchData2.default)(config, false, fetchOptions).then(function (data) {
       // if one language, only save this lang
-      saveDataToFile(data).then(function () {
-        return _logs2.default.success('DONE.');
-      });
+      return saveDataToFile(data);
     });
   }
 

@@ -36,7 +36,7 @@ export default function bundle (bundleName, fetchOptions, _config) {
   } else {
     fetchData(config, false, fetchOptions).then((data) => {
       // if one language, only save this lang
-      saveDataToFile(data).then(()=>log.success('DONE.'))
+      return saveDataToFile(data)
     })
   }
 

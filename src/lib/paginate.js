@@ -35,7 +35,7 @@ export default function paginate (bundleName, fetchOptions, _config) {
    } else {
      fetchData(config, false, fetchOptions).then((data) => {
        // if one language, only save this lang
-       saveDataToFile(data).then(()=>log.success('DONE.'))
+       return saveDataToFile(data)
      })
    }
 
