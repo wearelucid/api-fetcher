@@ -24,10 +24,6 @@ var _fetchData = require('./fetchData');
 
 var _fetchData2 = _interopRequireDefault(_fetchData);
 
-var _lodash = require('lodash.clonedeep');
-
-var _lodash2 = _interopRequireDefault(_lodash);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function paginate(bundleName, fetchOptions, _config) {
@@ -73,14 +69,13 @@ function paginate(bundleName, fetchOptions, _config) {
    * Save files (in this case paginated)
    */
   function saveDataToFile(data) {
-    var dataClone = (0, _lodash2.default)(data); // deep clone the data in order to do calculations
     var itemCount = _config.itemsPerPage ? _config.itemsPerPage : 10; // how many items per page, default 10
     var itemsTotal = data[bundleName].length; // itemsTotal (items length)
     var slices = Math.ceil(itemsTotal / itemCount); // round up slices (101 items will be 11 pages – last page with 1 item)
     var from = 0;
-    var arrayMapLength = data[bundleName].slice(from, itemCount); // get array map length
+    var slicesToArray = data[bundleName].slice(from, itemCount); // we need to build an array with the length of our pages, so we can map and return
 
-    return Promise.all(arrayMapLength.map(function (a, index) {
+    return Promise.all(slicesToArray.map(function (a, index) {
       // returns array of all promises from all saveDataToFile()-calls
       index += 1;
       return (0, _saveFiles2.default)({

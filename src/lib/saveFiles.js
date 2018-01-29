@@ -11,7 +11,7 @@ export default function saveFiles (data, bundleName, config, pageNumber) {
 
   log.info(`Writing ${fileName} (Length: ${json.length}, Size: ${jsonSizeKB}kB)`)
 
-  fs.writeFile(
+  return fs.writeFile(
     `${config.savePath}/${fileName}`,
     json,
     'utf-8',
