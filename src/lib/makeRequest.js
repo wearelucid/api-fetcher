@@ -8,13 +8,13 @@ export default function makeRequest (config, path, options = {}) {
   return axios.get(config.apiUrl + path)
   .then((response) => {
     log.request(response.status, ' ' + response.request.path)
-    if (options.filters) {
-      const filteredData = options.filters.reduce((data, filter) => filter(data), response.data)
-      response.data = filteredData
-    }
     if (options.transforms) {
       const transformedData = options.transforms.reduce((data, transform) => transform(data), response.data)
       response.data = transformedData
+    }
+    if (options.filters) {
+      const filteredData = options.filters.reduce((data, filter) => filter(data), response.data)
+      response.data = filteredData
     }
     return response.data
   })
