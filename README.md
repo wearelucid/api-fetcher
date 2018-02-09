@@ -1,5 +1,5 @@
 # Api fetcher
-Generates multiple JSON files from fetching API endpoints (i18n supported) 🚀
+Generates multiple JSON files from fetching (WordPress) API endpoints (i18n supported) 🚀
 
 ## Installation
 ```bash
@@ -37,6 +37,7 @@ const config = {
   savePath: './static/data',
   compressJSON: true, // setting this to false may help debugging :-)
   perPage: 5000, // arbitrary
+  itemsPerPage: 10, // set for pagination (default will automatically be 10)
   languages: [
     { lang: 'de', locale: 'de_CH' },
     { lang: 'en', locale: 'en_US' }
@@ -47,8 +48,12 @@ const config = {
 fetcher.log.printText('Lucid')
 fetcher.log.printConfig(config)
 
+// fetch paginated posts
+fetcher.paginate('posts', { posts: { method: fetcher.getWPPostType, postType: 'posts', transforms: [removeFieldsFromPost] } },
+
+// fetch bundled data
 fetcher.bundle('basic', {
-  pages: { method: fetcher.getWPPostType, postType: 'pages', transforms: [removeFieldsFromPost], filters: [showOnlyPublished] },
+  pages: { method: fetcher.getWPPostType, postType: 'pages', transforms: [removeFieldsFromPost, decodeTitle], filters: [showOnlyPublished] },
   menus: { method: fetcher.getWPMenus },
   options: { method: fetcher.getWPOptionsPage, slug: 'options' }
 }, config)
@@ -71,26 +76,36 @@ function _removeFieldsFromPost (data) {
   delete data._links
   return data
 }
-
 ```
 
 ### Generating Multiple Bundles
 If you want to generate multiple json bundles you can invoke `fetcher.bundle()` with different a name like so:
-
 ```javascript
-fetcher.bundle('pro', {
-  posts: { method: fetcher.getWPPostType, postType: 'posts', transforms: [removeFieldsFromPost] },
-  pages: { method: fetcher.getWPPostType, postType: 'pages', transforms: [removeFieldsFromPost] }
+fetcher.bundle('basic', {
+  pages: { method: fetcher.getWPPostType, postType: 'pages', transforms: [removeFieldsFromPost, decodeTitle] },
+  posts: { method: fetcher.getWPPostType, postType: 'posts', transforms: [removeFieldsFromPost, decodeTitle] }
 }, config)
 ```
 
-### TODO: Generating Paginated Collections
-You can also generated paginated collections like so
+### Generating Paginated Collections
+You can also generated paginated collections like so:
 ```javascript
-fetcher.paginateWP('posts', { endpoint: '/wp/v2/posts' }, config)
-fetcher.paginateWP('page', { endpoint: '/wp/v2/posts' }, config)
+fetcher.paginate('posts', { posts: { method: fetcher.getWPPostType, postType: 'posts', transforms: [removeFieldsFromPost, decodeTitle] } }, config)
+fetcher.paginate('pages', { pages: { method: fetcher.getWPPostType, postType: 'pages', transforms: [removeFieldsFromPost, decodeTitle] } }, config)
 ```
-This will generate a collection of json files:
+
+In some cases you might also want to load all items of the once you loaded paginated (for having all the data):
+```javascript
+fetcher.bundle('fileName', { posts: { method: fetcher.getWPPostType, postType: 'posts', transforms: [removeFieldsFromPost, decodeTitle] } }, config)
+```
+
+Default items per page will be set to `10`.
+You can provide the variable `itemsPerPage` inside your config.
+```
+itemsPerPage: 10
+```
+
+This will generate a collection of json files (with your specified naming), in this case:
 ```bash
 posts.de.1.json
 posts.de.2.json

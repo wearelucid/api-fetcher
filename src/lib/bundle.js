@@ -1,6 +1,6 @@
-import fs from 'fs'
 import mkdirp from 'mkdirp'
 import log from './logs'
+import saveFiles from './saveFiles'
 import fetchData from './fetchData'
 
 export default function bundle (bundleName, fetchOptions, _config) {
@@ -21,34 +21,29 @@ export default function bundle (bundleName, fetchOptions, _config) {
    * Fetch all languages
    */
   if (config.languages && config.languages.length) {
+
     Promise.all(
       config.languages.map(language => fetchData(config, language, fetchOptions))
     ).then((datas) => {
-      datas.forEach(saveFile)
-      log.success('DONE.')
+      // for each lang save files
+      return Promise.all( // resolves an array of promises
+        datas.map((data) => { // returns array of all promises from all saveDataToFile()-calls
+          return saveDataToFile(data)
+        })
+      ).then(() => log.success('DONE.')) // is called when all promises are resolved (here: all files are saved)
+      // for each lang save files
     })
   } else {
     fetchData(config, false, fetchOptions).then((data) => {
-      saveFile(data)
-      log.success('DONE.')
+      // if one language, only save this lang
+      return saveDataToFile(data)
     })
   }
 
-  function saveFile (data) {
-    const json = JSON.stringify(data, null, config.compressJSON ? null : 2)
-    const jsonSizeKB = (Math.round((Buffer.byteLength(json, 'utf8') / 1024) * 100)) / 100
-    const fileName = `${bundleName}${data.language ? `.${data.language}` : ''}.json`
-
-    log.info(`Writing ${fileName} (Length: ${json.length}, Size: ${jsonSizeKB}kB)`)
-
-    fs.writeFile(
-      `${config.savePath}/${fileName}`,
-      json,
-      'utf-8',
-      function (err) {
-        if (err) return console.error(err)
-        log.success(`Wrote to ${config.savePath}/${fileName} successfully!`)
-      }
-    )
+  /**
+   * Save files (in this case as a bundle)
+   */
+  function saveDataToFile (data) {
+    return saveFiles(data, bundleName, config)
   }
 }

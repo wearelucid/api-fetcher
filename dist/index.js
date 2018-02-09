@@ -9,6 +9,14 @@ var _bundle = require('./lib/bundle');
 
 var _bundle2 = _interopRequireDefault(_bundle);
 
+var _paginate = require('./lib/paginate');
+
+var _paginate2 = _interopRequireDefault(_paginate);
+
+var _eachItem = require('./lib/eachItem');
+
+var _eachItem2 = _interopRequireDefault(_eachItem);
+
 var _logs = require('./lib/logs');
 
 var _logs2 = _interopRequireDefault(_logs);
@@ -37,6 +45,8 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var fetcher = exports.fetcher = {
   bundle: _bundle2.default,
+  paginate: _paginate2.default,
+  eachItem: _eachItem2.default,
   log: _logs2.default,
   makeRequest: _makeRequest2.default,
   getWPMenus: _getWPMenus2.default,

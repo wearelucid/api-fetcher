@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-exports.default = bundle;
+exports.default = paginate;
 
 var _mkdirp = require('mkdirp');
 
@@ -26,7 +26,7 @@ var _fetchData2 = _interopRequireDefault(_fetchData);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function bundle(bundleName, fetchOptions, _config) {
+function paginate(bundleName, fetchOptions, _config) {
   var config = _extends({
     savePath: './data'
   }, _config);
@@ -43,7 +43,6 @@ function bundle(bundleName, fetchOptions, _config) {
    * Fetch all languages
    */
   if (config.languages && config.languages.length) {
-
     Promise.all(config.languages.map(function (language) {
       return (0, _fetchData2.default)(config, language, fetchOptions);
     })).then(function (datas) {
@@ -65,9 +64,37 @@ function bundle(bundleName, fetchOptions, _config) {
   }
 
   /**
-   * Save files (in this case as a bundle)
+   * Save files (in this case paginated)
    */
   function saveDataToFile(data) {
-    return (0, _saveFiles2.default)(data, bundleName, config);
+    var itemCount = _config.itemsPerPage ? _config.itemsPerPage : 10; // how many items per page, default 10
+    var itemsTotal = data[bundleName].length; // itemsTotal (items length)
+    var slices = Math.ceil(itemsTotal / itemCount); // round up slices (101 items will be 11 pages – last page with 1 item)
+    var from = 0;
+    var slicesToArray = data[bundleName].slice(from, itemCount); // we need to build an array with the length of our pages, so we can map and return
+
+    return Promise.all(slicesToArray.map(function (a, index) {
+      // returns array of all promises from all saveDataToFile()-calls
+      index += 1;
+      return (0, _saveFiles2.default)({
+        // custom attributes we can set inside paginatedProps
+        paginatedProps: {
+          pagesTotal: slices,
+          page: index,
+          from: from,
+          itemCount: itemCount,
+          itemsTotal: itemsTotal
+        },
+        // language will only be used to create the file name
+        language: data.language,
+        // all items as items correctly sliced
+        items: data[bundleName].slice(from, index * itemCount)
+      }, bundleName, config, index);
+      // iterate from value (like: 0, 10, 20, …)
+      // the form/itemCount values will be like (0-10, 10-20, 20-30, …)
+      from = from + itemCount;
+    })).then(function () {
+      return _logs2.default.success('DONE.');
+    });
   }
 }
