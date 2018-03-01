@@ -72,10 +72,12 @@ function paginate(bundleName, fetchOptions, _config) {
     var slices = Math.ceil(itemsTotal / itemCount); // round up slices (101 items will be 11 pages – last page with 1 item)
     var from = 0;
     var slicesToArray = data[bundleName].slice(from, itemCount); // we need to build an array with the length of our pages, so we can map and return
+    var firstIteration = true;
 
     return Promise.all(slicesToArray.map(function (a, index) {
       // returns array of all promises from all saveDataToFile()-calls
       index += 1;
+      firstIteration ? firstIteration = false : from += itemCount;
       return (0, _saveFiles2.default)({
         // custom attributes we can set inside paginatedProps
         paginatedProps: {
@@ -92,7 +94,6 @@ function paginate(bundleName, fetchOptions, _config) {
       }, bundleName, config, index);
       // iterate from value (like: 0, 10, 20, …)
       // the form/itemCount values will be like (0-10, 10-20, 20-30, …)
-      from = from + itemCount;
     })).then(function () {
       return _logs2.default.success('DONE.');
     });
