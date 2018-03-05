@@ -71,7 +71,7 @@ function paginate(bundleName, fetchOptions, _config) {
     var itemsTotal = data[bundleName].length; // itemsTotal (items length)
     var slices = Math.ceil(itemsTotal / itemCount); // round up slices (101 items will be 11 pages – last page with 1 item)
     var from = 0;
-    var slicesToArray = data[bundleName].slice(from, itemCount); // we need to build an array with the length of our pages, so we can map and return
+    var slicesToArray = data[bundleName].slice(from, slices); // we need to build an array with the length of our pages, so we can map and return
     var firstIteration = true;
 
     return Promise.all(slicesToArray.map(function (a, index) {
