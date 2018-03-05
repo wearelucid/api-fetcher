@@ -5,7 +5,7 @@ import fetchData from './fetchData'
 
 export default function paginate (bundleName, fetchOptions, _config) {
   const config = {
-    savePath: './data',
+    savePath: './posts',
     ..._config
   }
 
@@ -68,7 +68,7 @@ export default function paginate (bundleName, fetchOptions, _config) {
             language: data.language,
             // all items as items correctly sliced
             items: data[bundleName].slice(from, index*itemCount)
-          }, bundleName, config, index)
+          }, bundleName, config, data[bundleName][(index-1)].slug)
           // iterate from value (like: 0, 10, 20, …)
           // the form/itemCount values will be like (0-10, 10-20, 20-30, …)
       })

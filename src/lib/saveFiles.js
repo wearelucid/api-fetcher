@@ -12,7 +12,7 @@ export default function saveFiles (data, bundleName, config, additionalNaming) {
   log.info(`Writing ${fileName} (Length: ${json.length}, Size: ${jsonSizeKB}kB)`)
 
   return fs.writeFile(
-    `${config.savePath}/${fileName}`,
+    `${data.paginatedProps ? config.savePathPaginated : config.savePath}/${fileName}`,
     json,
     'utf-8',
     function (err) {
