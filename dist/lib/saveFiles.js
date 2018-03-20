@@ -26,7 +26,7 @@ function saveFiles(data, bundleName, config, additionalNaming) {
 
   _logs2.default.info('Writing ' + fileName + ' (Length: ' + json.length + ', Size: ' + jsonSizeKB + 'kB)');
 
-  return _fs2.default.writeFile((data.paginatedProps ? config.savePathPaginated : config.savePath) + '/' + fileName, json, 'utf-8', function (err) {
+  return _fs2.default.writeFile(config.savePath + '/' + fileName, json, 'utf-8', function (err) {
     if (err) return console.error(err);
     _logs2.default.success('Wrote to ' + config.savePath + '/' + fileName + ' successfully!');
   });
