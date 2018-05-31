@@ -28,7 +28,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function paginate(bundleName, fetchOptions, _config) {
   var config = _extends({
-    savePath: './posts'
+    savePath: "'./' + bundleName"
   }, _config);
 
   /**

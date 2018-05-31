@@ -5,7 +5,7 @@ import fetchData from './fetchData'
 
 export default function paginate (bundleName, fetchOptions, _config) {
   const config = {
-    savePath: './posts',
+    savePath: "'./' + bundleName",
     ..._config
   }
 
