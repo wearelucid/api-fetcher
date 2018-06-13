@@ -14,9 +14,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function getWPCustomTaxonomy(config, lang) {
   var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-  console.log('options: ', options);
   // TODO: Check if categories can be fetched by language as well
-  return (0, _makeRequest2.default)(config, '/wp/v2/' + options.taxonomy).then(function (data) {
-    return data;
-  });
+  return (0, _makeRequest2.default)(config, '/wp/v2/' + options.taxonomy);
 }
