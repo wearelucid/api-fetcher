@@ -55,8 +55,13 @@ fetcher.paginate('posts', { posts: { method: fetcher.getWPPostType, postType: 'p
 fetcher.bundle('basic', {
   pages: { method: fetcher.getWPPostType, postType: 'pages', transforms: [removeFieldsFromPost, decodeTitle], filters: [showOnlyPublished] },
   menus: { method: fetcher.getWPMenus },
-  options: { method: fetcher.getWPOptionsPage, slug: 'options' }
+  options: { method: fetcher.getWPOptionsPage, slug: 'options' },
+
+  // If you need to get categories and custom taxonomies
+  categories: { method: fetcher.getWPCategories },
+  formats: { method: fetcher.getWPCustomTaxonomy, taxonomy: 'formats' }
 }, config)
+
 
 /**
 * Filter (Note: This filter is an example. It is not needed. Wordpress by default only delivers published posts and pages)
