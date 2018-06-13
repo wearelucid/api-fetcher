@@ -29,6 +29,14 @@ var _getWPMenus = require('./lib/wp/getWPMenus');
 
 var _getWPMenus2 = _interopRequireDefault(_getWPMenus);
 
+var _getWPCategories = require('./lib/wp/getWPCategories');
+
+var _getWPCategories2 = _interopRequireDefault(_getWPCategories);
+
+var _getWPCustomTaxonomy = require('./lib/wp/getWPCustomTaxonomy');
+
+var _getWPCustomTaxonomy2 = _interopRequireDefault(_getWPCustomTaxonomy);
+
 var _getWPPostType = require('./lib/wp/getWPPostType');
 
 var _getWPPostType2 = _interopRequireDefault(_getWPPostType);
@@ -50,6 +58,8 @@ var fetcher = exports.fetcher = {
   log: _logs2.default,
   makeRequest: _makeRequest2.default,
   getWPMenus: _getWPMenus2.default,
+  getWPCategories: _getWPCategories2.default,
+  getWPCustomTaxonomy: _getWPCustomTaxonomy2.default,
   getWPPostType: _getWPPostType2.default,
   getWPOptionsPage: _getWPOptionsPage2.default,
   applyToOneOrMany: _applyToOneOrMany2.default,
