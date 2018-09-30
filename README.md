@@ -1,9 +1,12 @@
 # Api fetcher
+
+[![npm version](https://img.shields.io/npm/v/@wearelucid/api-fetcher.svg?style=flat-square)](https://www.npmjs.com/package/@wearelucid/api-fetcher)
+
 Generates multiple JSON files from fetching (WordPress) API endpoints (i18n supported) 🚀
 
 ## Installation
 ```bash
-yarn add git+ssh://git@github.com:wearelucid/vue-mq#1.0.7
+yarn add @wearelucid/api-fetcher
 ```
 
 ## Usage

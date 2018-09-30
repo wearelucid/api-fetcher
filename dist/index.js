@@ -1,69 +1,48 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.fetcher = undefined;
+exports.default = exports.fetcher = void 0;
 
-var _bundle = require('./lib/bundle');
+var _bundle = _interopRequireDefault(require("./lib/bundle"));
 
-var _bundle2 = _interopRequireDefault(_bundle);
+var _paginate = _interopRequireDefault(require("./lib/paginate"));
 
-var _paginate = require('./lib/paginate');
+var _eachItem = _interopRequireDefault(require("./lib/eachItem"));
 
-var _paginate2 = _interopRequireDefault(_paginate);
+var _logs = _interopRequireDefault(require("./lib/logs"));
 
-var _eachItem = require('./lib/eachItem');
+var _makeRequest = _interopRequireDefault(require("./lib/makeRequest"));
 
-var _eachItem2 = _interopRequireDefault(_eachItem);
+var _getWPMenus = _interopRequireDefault(require("./lib/wp/getWPMenus"));
 
-var _logs = require('./lib/logs');
+var _getWPCategories = _interopRequireDefault(require("./lib/wp/getWPCategories"));
 
-var _logs2 = _interopRequireDefault(_logs);
+var _getWPCustomTaxonomy = _interopRequireDefault(require("./lib/wp/getWPCustomTaxonomy"));
 
-var _makeRequest = require('./lib/makeRequest');
+var _getWPPostType = _interopRequireDefault(require("./lib/wp/getWPPostType"));
 
-var _makeRequest2 = _interopRequireDefault(_makeRequest);
+var _getWPOptionsPage = _interopRequireDefault(require("./lib/wp/getWPOptionsPage"));
 
-var _getWPMenus = require('./lib/wp/getWPMenus');
-
-var _getWPMenus2 = _interopRequireDefault(_getWPMenus);
-
-var _getWPCategories = require('./lib/wp/getWPCategories');
-
-var _getWPCategories2 = _interopRequireDefault(_getWPCategories);
-
-var _getWPCustomTaxonomy = require('./lib/wp/getWPCustomTaxonomy');
-
-var _getWPCustomTaxonomy2 = _interopRequireDefault(_getWPCustomTaxonomy);
-
-var _getWPPostType = require('./lib/wp/getWPPostType');
-
-var _getWPPostType2 = _interopRequireDefault(_getWPPostType);
-
-var _getWPOptionsPage = require('./lib/wp/getWPOptionsPage');
-
-var _getWPOptionsPage2 = _interopRequireDefault(_getWPOptionsPage);
-
-var _applyToOneOrMany = require('./lib/util/applyToOneOrMany');
-
-var _applyToOneOrMany2 = _interopRequireDefault(_applyToOneOrMany);
+var _applyToOneOrMany = _interopRequireDefault(require("./lib/util/applyToOneOrMany"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var fetcher = exports.fetcher = {
-  bundle: _bundle2.default,
-  paginate: _paginate2.default,
-  eachItem: _eachItem2.default,
-  log: _logs2.default,
-  makeRequest: _makeRequest2.default,
-  getWPMenus: _getWPMenus2.default,
-  getWPCategories: _getWPCategories2.default,
-  getWPCustomTaxonomy: _getWPCustomTaxonomy2.default,
-  getWPPostType: _getWPPostType2.default,
-  getWPOptionsPage: _getWPOptionsPage2.default,
-  applyToOneOrMany: _applyToOneOrMany2.default,
+var fetcher = {
+  bundle: _bundle.default,
+  paginate: _paginate.default,
+  eachItem: _eachItem.default,
+  log: _logs.default,
+  makeRequest: _makeRequest.default,
+  getWPMenus: _getWPMenus.default,
+  getWPCategories: _getWPCategories.default,
+  getWPCustomTaxonomy: _getWPCustomTaxonomy.default,
+  getWPPostType: _getWPPostType.default,
+  getWPOptionsPage: _getWPOptionsPage.default,
+  applyToOneOrMany: _applyToOneOrMany.default,
   test: true
 };
-
-exports.default = fetcher;
+exports.fetcher = fetcher;
+var _default = fetcher;
+exports.default = _default;

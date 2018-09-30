@@ -1,51 +1,45 @@
-'use strict';
+"use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 exports.default = bundle;
 
-var _mkdirp = require('mkdirp');
+var _mkdirp = _interopRequireDefault(require("mkdirp"));
 
-var _mkdirp2 = _interopRequireDefault(_mkdirp);
+var _logs = _interopRequireDefault(require("./logs"));
 
-var _logs = require('./logs');
+var _saveFiles = _interopRequireDefault(require("./saveFiles"));
 
-var _logs2 = _interopRequireDefault(_logs);
-
-var _saveFiles = require('./saveFiles');
-
-var _saveFiles2 = _interopRequireDefault(_saveFiles);
-
-var _fetchData = require('./fetchData');
-
-var _fetchData2 = _interopRequireDefault(_fetchData);
+var _fetchData = _interopRequireDefault(require("./fetchData"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function bundle(bundleName, fetchOptions, _config) {
-  var config = _extends({
+  var config = _objectSpread({
     savePath: './data'
   }, _config);
-
   /**
    * Create directory (synchronously)
    */
-  (0, _mkdirp2.default)(config.savePath, function (err) {
-    if (err) return console.error(err);
-    _logs2.default.success(config.savePath + ' created successfully!');
-  });
 
+
+  (0, _mkdirp.default)(config.savePath, function (err) {
+    if (err) return console.error(err);
+
+    _logs.default.success("".concat(config.savePath, " created successfully!"));
+  });
   /**
    * Fetch all languages
    */
-  if (config.languages && config.languages.length) {
 
+  if (config.languages && config.languages.length) {
     Promise.all(config.languages.map(function (language) {
-      return (0, _fetchData2.default)(config, language, fetchOptions);
+      return (0, _fetchData.default)(config, language, fetchOptions);
     })).then(function (datas) {
       // for each lang save files
       return Promise.all( // resolves an array of promises
@@ -53,21 +47,22 @@ function bundle(bundleName, fetchOptions, _config) {
         // returns array of all promises from all saveDataToFile()-calls
         return saveDataToFile(data);
       })).then(function () {
-        return _logs2.default.success('DONE.');
+        return _logs.default.success('DONE.');
       }); // is called when all promises are resolved (here: all files are saved)
       // for each lang save files
     });
   } else {
-    (0, _fetchData2.default)(config, false, fetchOptions).then(function (data) {
+    (0, _fetchData.default)(config, false, fetchOptions).then(function (data) {
       // if one language, only save this lang
       return saveDataToFile(data);
     });
   }
-
   /**
    * Save files (in this case as a bundle)
    */
+
+
   function saveDataToFile(data) {
-    return (0, _saveFiles2.default)(data, bundleName, config);
+    return (0, _saveFiles.default)(data, bundleName, config);
   }
 }
