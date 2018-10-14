@@ -5,8 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = getWPPostType;
 
-var _flattenACF = _interopRequireDefault(require("./flattenACF"));
-
 var _normalizeWordpress = _interopRequireDefault(require("./normalizeWordpress"));
 
 var _makeRequest = _interopRequireDefault(require("../makeRequest"));
@@ -27,6 +25,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 function getWPPostType(config, lang, options) {
   return (0, _makeRequest.default)(config, "/wp/v2/".concat(options.postType, "?per_page=").concat(config.perPage).concat(lang ? "&lang=".concat(lang) : ''), _objectSpread({}, options, {
-    transforms: [_flattenACF.default, _normalizeWordpress.default].concat(_toConsumableArray(options.transforms || []))
+    transforms: [_normalizeWordpress.default].concat(_toConsumableArray(options.transforms || []))
   }));
 }
