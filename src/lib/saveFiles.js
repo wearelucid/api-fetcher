@@ -16,8 +16,11 @@ export default function saveFiles (data, bundleName, config, additionalNaming) {
     json,
     'utf-8',
     function (err) {
-      if (err) return console.error(err)
-      log.success(`Wrote to ${config.savePath}/${fileName} successfully!`)
+      if (err) {
+        throw err
+      } else {
+        log.success(`Wrote to ${config.savePath}/${fileName} successfully!`)
+      }
     }
   )
 }
