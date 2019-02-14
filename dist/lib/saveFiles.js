@@ -23,8 +23,10 @@ function saveFiles(data, bundleName, config, additionalNaming) {
   _logs.default.info("Writing ".concat(fileName, " (Length: ").concat(json.length, ", Size: ").concat(jsonSizeKB, "kB)"));
 
   return _fs.default.writeFile("".concat(config.savePath, "/").concat(fileName), json, 'utf-8', function (err) {
-    if (err) return console.error(err);
-
-    _logs.default.success("Wrote to ".concat(config.savePath, "/").concat(fileName, " successfully!"));
+    if (err) {
+      throw err;
+    } else {
+      _logs.default.success("Wrote to ".concat(config.savePath, "/").concat(fileName, " successfully!"));
+    }
   });
 }
