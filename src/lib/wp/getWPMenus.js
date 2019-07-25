@@ -12,11 +12,11 @@ export default function getWPMenus (config, lang) {
   ])
   .then(axios.spread((menuList, locations) => {
     return axios.all(
-      menuList.map(m => makeRequest(config, `/menus/v1/menus${m.ID}${lang ? `?lang=${lang}` : ''}`))
+      menuList.map(m => makeRequest(config, `/menus/v1/menus/${m.slug}${lang ? `?lang=${lang}` : ''}`))
     )
     .then(axios.spread((...menus) => {
       const menuListWithChildren = menuList.map(m => {
-        const matchMenu = menus.find((detailedMenu) => detailedMenu.ID === m.ID)
+        const matchMenu = menus.find((detailedMenu) => detailedMenu.slug === m.slug)
         return {
           ...m,
           items: matchMenu ? matchMenu.items : []
@@ -27,7 +27,7 @@ export default function getWPMenus (config, lang) {
       Object.keys(locations).map(l => {
         obj[l] = { ...locations[l] }
         delete obj[l].meta
-        obj[l].menu = menuListWithChildren.find(m => m.ID === obj[l].ID) || false
+        obj[l].menu = menuListWithChildren.find(m => m.slug === obj[l].slug) || false
       })
 
       return obj

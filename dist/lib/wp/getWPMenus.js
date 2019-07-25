@@ -22,7 +22,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 function getWPMenus(config, lang) {
   return _axios.default.all([(0, _makeRequest.default)(config, "/menus/v1/menus".concat(lang ? "?lang=".concat(lang) : '')), (0, _makeRequest.default)(config, "/menus/v1/locations".concat(lang ? "?lang=".concat(lang) : ''))]).then(_axios.default.spread(function (menuList, locations) {
     return _axios.default.all(menuList.map(function (m) {
-      return (0, _makeRequest.default)(config, "/menus/v1/menus".concat(m.ID).concat(lang ? "?lang=".concat(lang) : ''));
+      return (0, _makeRequest.default)(config, "/menus/v1/menus/".concat(m.slug).concat(lang ? "?lang=".concat(lang) : ''));
     })).then(_axios.default.spread(function () {
       for (var _len = arguments.length, menus = new Array(_len), _key = 0; _key < _len; _key++) {
         menus[_key] = arguments[_key];
@@ -30,7 +30,7 @@ function getWPMenus(config, lang) {
 
       var menuListWithChildren = menuList.map(function (m) {
         var matchMenu = menus.find(function (detailedMenu) {
-          return detailedMenu.ID === m.ID;
+          return detailedMenu.slug === m.slug;
         });
         return _objectSpread({}, m, {
           items: matchMenu ? matchMenu.items : []
@@ -41,7 +41,7 @@ function getWPMenus(config, lang) {
         obj[l] = _objectSpread({}, locations[l]);
         delete obj[l].meta;
         obj[l].menu = menuListWithChildren.find(function (m) {
-          return m.ID === obj[l].ID;
+          return m.slug === obj[l].slug;
         }) || false;
       });
       return obj;
