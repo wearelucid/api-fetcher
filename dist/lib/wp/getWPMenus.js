@@ -20,9 +20,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * Requires wp-api-menus plugin
  */
 function getWPMenus(config, lang) {
-  return _axios.default.all([(0, _makeRequest.default)(config, "/wp-api-menus/v2/menus".concat(lang ? "?lang=".concat(lang) : '')), (0, _makeRequest.default)(config, "/wp-api-menus/v2/menu-locations".concat(lang ? "?lang=".concat(lang) : ''))]).then(_axios.default.spread(function (menuList, locations) {
+  return _axios.default.all([(0, _makeRequest.default)(config, "/menus/v1/menus".concat(lang ? "?lang=".concat(lang) : '')), (0, _makeRequest.default)(config, "/menus/v1/locations".concat(lang ? "?lang=".concat(lang) : ''))]).then(_axios.default.spread(function (menuList, locations) {
     return _axios.default.all(menuList.map(function (m) {
-      return (0, _makeRequest.default)(config, "/wp-api-menus/v2/menus/".concat(m.ID).concat(lang ? "?lang=".concat(lang) : ''));
+      return (0, _makeRequest.default)(config, "/menus/v1/menus".concat(m.ID).concat(lang ? "?lang=".concat(lang) : ''));
     })).then(_axios.default.spread(function () {
       for (var _len = arguments.length, menus = new Array(_len), _key = 0; _key < _len; _key++) {
         menus[_key] = arguments[_key];

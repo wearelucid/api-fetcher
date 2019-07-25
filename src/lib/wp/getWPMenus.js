@@ -7,12 +7,12 @@ import makeRequest from '../makeRequest'
  */
 export default function getWPMenus (config, lang) {
   return axios.all([
-    makeRequest(config, `/wp-api-menus/v2/menus${lang ? `?lang=${lang}` : ''}`),
-    makeRequest(config, `/wp-api-menus/v2/menu-locations${lang ? `?lang=${lang}` : ''}`)
+    makeRequest(config, `/menus/v1/menus${lang ? `?lang=${lang}` : ''}`),
+    makeRequest(config, `/menus/v1/locations${lang ? `?lang=${lang}` : ''}`)
   ])
   .then(axios.spread((menuList, locations) => {
     return axios.all(
-      menuList.map(m => makeRequest(config, `/wp-api-menus/v2/menus/${m.ID}${lang ? `?lang=${lang}` : ''}`))
+      menuList.map(m => makeRequest(config, `/menus/v1/menus${m.ID}${lang ? `?lang=${lang}` : ''}`))
     )
     .then(axios.spread((...menus) => {
       const menuListWithChildren = menuList.map(m => {
