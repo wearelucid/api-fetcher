@@ -24,7 +24,16 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function getWPPostType(config, lang, options) {
-  return (0, _makeRequest.default)(config, "/wp/v2/".concat(options.postType, "?per_page=").concat(config.perPage).concat(lang ? "&lang=".concat(lang) : ''), _objectSpread({}, options, {
+  var additionalQueryParams = '';
+
+  if (options.additionalQueryParams) {
+    additionalQueryParams = options.additionalQueryParams.reduce(function (acc, cur) {
+      return "".concat(acc, "&").concat(cur.key, "=").concat(cur.value);
+    }, '');
+  }
+
+  var requestUrl = "/wp/v2/".concat(options.postType, "?per_page=").concat(config.perPage).concat(lang ? "&lang=".concat(lang) : '').concat(additionalQueryParams);
+  return (0, _makeRequest.default)(config, requestUrl, _objectSpread({}, options, {
     transforms: [_normalizeWordpress.default].concat(_toConsumableArray(options.transforms || []))
   }));
 }
