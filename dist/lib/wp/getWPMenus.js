@@ -11,6 +11,14 @@ var _makeRequest = _interopRequireDefault(require("../makeRequest"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -20,9 +28,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
  * Requires wp-api-menus plugin
  */
 function getWPMenus(config, lang) {
+  var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
   return _axios.default.all([(0, _makeRequest.default)(config, "/menus/v1/menus".concat(lang ? "?lang=".concat(lang) : '')), (0, _makeRequest.default)(config, "/menus/v1/locations".concat(lang ? "?lang=".concat(lang) : ''))]).then(_axios.default.spread(function (menuList, locations) {
     return _axios.default.all(menuList.map(function (m) {
-      return (0, _makeRequest.default)(config, "/menus/v1/menus/".concat(m.slug).concat(lang ? "?lang=".concat(lang) : ''));
+      return (0, _makeRequest.default)(config, "/menus/v1/menus/".concat(m.slug).concat(lang ? "?lang=".concat(lang) : ''), _objectSpread({}, options, {
+        transforms: _toConsumableArray(options.transforms || [])
+      }));
     })).then(_axios.default.spread(function () {
       for (var _len = arguments.length, menus = new Array(_len), _key = 0; _key < _len; _key++) {
         menus[_key] = arguments[_key];

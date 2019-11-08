@@ -5,14 +5,18 @@ import makeRequest from '../makeRequest'
  * Fetch All Menus and embed items
  * Requires wp-api-menus plugin
  */
-export default function getWPMenus (config, lang) {
+export default function getWPMenus (config, lang, options = {}) {
   return axios.all([
     makeRequest(config, `/menus/v1/menus${lang ? `?lang=${lang}` : ''}`),
     makeRequest(config, `/menus/v1/locations${lang ? `?lang=${lang}` : ''}`)
   ])
   .then(axios.spread((menuList, locations) => {
     return axios.all(
-      menuList.map(m => makeRequest(config, `/menus/v1/menus/${m.slug}${lang ? `?lang=${lang}` : ''}`))
+      menuList.map(m => makeRequest(
+        config, 
+        `/menus/v1/menus/${m.slug}${lang ? `?lang=${lang}` : ''}`,
+        { ...options, transforms: [...(options.transforms || [])] }
+      ))
     )
     .then(axios.spread((...menus) => {
       const menuListWithChildren = menuList.map(m => {
