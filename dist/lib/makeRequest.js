@@ -37,7 +37,6 @@ function makeRequest(config, path) {
   })["catch"](function (error) {
     _logs["default"].error(error);
 
-    _logs["default"].error(error.response.status, ' ' + error.request.path); // log.error(error.response.statusText, error.response.data)
-
+    _logs["default"].error("".concat(error.response.status, " ").concat(error.request.path));
   });
 }

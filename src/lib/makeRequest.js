@@ -20,7 +20,6 @@ export default function makeRequest (config, path, options = {}) {
   })
   .catch((error) => {
     log.error(error)
-    log.error(error.response.status, ' ' + error.request.path)
-    // log.error(error.response.statusText, error.response.data)
+    log.error(`${error.response.status} ${error.request.path}`)
   })
 }
