@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = exports.fetcher = void 0;
+exports["default"] = exports.fetcher = void 0;
 
 var _bundle = _interopRequireDefault(require("./lib/bundle"));
 
@@ -27,22 +27,21 @@ var _getWPOptionsPage = _interopRequireDefault(require("./lib/wp/getWPOptionsPag
 
 var _applyToOneOrMany = _interopRequireDefault(require("./lib/util/applyToOneOrMany"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var fetcher = {
-  bundle: _bundle.default,
-  paginate: _paginate.default,
-  eachItem: _eachItem.default,
-  log: _logs.default,
-  makeRequest: _makeRequest.default,
-  getWPMenus: _getWPMenus.default,
-  getWPCategories: _getWPCategories.default,
-  getWPCustomTaxonomy: _getWPCustomTaxonomy.default,
-  getWPPostType: _getWPPostType.default,
-  getWPOptionsPage: _getWPOptionsPage.default,
-  applyToOneOrMany: _applyToOneOrMany.default,
-  test: true
+  bundle: _bundle["default"],
+  paginate: _paginate["default"],
+  eachItem: _eachItem["default"],
+  log: _logs["default"],
+  makeRequest: _makeRequest["default"],
+  getWPMenus: _getWPMenus["default"],
+  getWPCategories: _getWPCategories["default"],
+  getWPCustomTaxonomy: _getWPCustomTaxonomy["default"],
+  getWPPostType: _getWPPostType["default"],
+  getWPOptionsPage: _getWPOptionsPage["default"],
+  applyToOneOrMany: _applyToOneOrMany["default"]
 };
 exports.fetcher = fetcher;
 var _default = fetcher;
-exports.default = _default;
+exports["default"] = _default;

@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = takeFirstResult;
+exports["default"] = takeFirstResult;
 
 function takeFirstResult(data) {
   if (data.length) {
