@@ -27,14 +27,20 @@ export default function getWPMenus (config, lang, options = {}) {
         }
       })
 
-      const obj = {}
+      const menuToBeReturned = {}
       Object.keys(locations).map(l => {
-        obj[l] = { ...locations[l] }
-        delete obj[l].meta
-        obj[l].menu = menuListWithChildren.find(m => m.slug === obj[l].slug) || false
+        menuToBeReturned[l] = { ...locations[l] }
+        delete menuToBeReturned[l].meta
+
+        // Find the matching menu.
+        // Otherwise fall back to match a localized menu like 'main_de' or 'main_fr' by providing the `lang` separated with an underscore. Menu locations in WordPress should be named accordingly!
+        // Otherwise return null
+        menuToBeReturned[l].menu = menuListWithChildren.find(m => m.slug === menuToBeReturned[l].slug) ||
+          menuListWithChildren.find(m => m.slug.startsWith(`${menuToBeReturned[l].slug}_${lang}`)) ||
+          null
       })
 
-      return obj
+      return menuToBeReturned
     }))
   }))
 }
