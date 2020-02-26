@@ -1,4 +1,4 @@
-import mkdirp from 'mkdirp'
+import fs from 'fs'
 import log from './logs'
 import saveFiles from './saveFiles'
 import fetchData from './fetchData'
@@ -12,10 +12,12 @@ export default function bundle (bundleName, fetchOptions, _config) {
   /**
    * Create directory (synchronously)
    */
-  mkdirp(config.savePath, function (err) {
-    if (err) return console.error(err)
+  try {
+    fs.mkdirSync(config.savePath, { recursive: true })
     log.success(`${config.savePath} created successfully!`)
-  })
+  } catch (e) {
+    console.error(e)
+  }
 
   /**
    * Fetch all languages

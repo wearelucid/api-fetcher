@@ -7,7 +7,7 @@ import log from './logs'
 export default function makeRequest (config, path, options = {}) {
   return axios.get(config.apiUrl + path)
   .then((response) => {
-    log.request(response.status, ' ' + response.request.path)
+    log.request(`${response.status} ${response.request.path}`)
     if (options.transforms) {
       const transformedData = options.transforms.reduce((data, transform) => transform(data), response.data)
       response.data = transformedData

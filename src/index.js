@@ -21,8 +21,7 @@ export const fetcher = {
   getWPCustomTaxonomy,
   getWPPostType,
   getWPOptionsPage,
-  applyToOneOrMany,
-  test: true
+  applyToOneOrMany
 }
 
 export default fetcher
