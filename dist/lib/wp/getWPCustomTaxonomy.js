@@ -25,7 +25,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 function getWPCustomTaxonomy(config, lang) {
   var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-  return (0, _makeRequest["default"])(config, "/wp/v2/".concat(options.taxonomy), _objectSpread({}, options, {
+  return (0, _makeRequest["default"])(config, "/wp/v2/".concat(options.taxonomy).concat(lang ? "?lang=".concat(lang) : ''), _objectSpread({}, options, {
     transforms: _toConsumableArray(options.transforms || [])
   }));
 }
