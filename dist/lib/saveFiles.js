@@ -3,13 +3,13 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = saveFiles;
+exports["default"] = saveFiles;
 
 var _logs = _interopRequireDefault(require("./logs"));
 
 var _fs = _interopRequireDefault(require("fs"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 /**
  * Save files
@@ -20,13 +20,13 @@ function saveFiles(data, bundleName, config, additionalNaming) {
   var jsonSizeKB = Math.round(Buffer.byteLength(json, 'utf8') / 1024 * 100) / 100;
   var fileName = "".concat(bundleName).concat(data.language ? ".".concat(data.language) : '').concat(additionalNaming ? ".".concat(additionalNaming) : '', ".json");
 
-  _logs.default.info("Writing ".concat(fileName, " (Length: ").concat(json.length, ", Size: ").concat(jsonSizeKB, "kB)"));
+  _logs["default"].info("Writing ".concat(fileName, " (Length: ").concat(json.length, ", Size: ").concat(jsonSizeKB, "kB)"));
 
-  return _fs.default.writeFile("".concat(config.savePath, "/").concat(fileName), json, 'utf-8', function (err) {
+  return _fs["default"].writeFile("".concat(config.savePath, "/").concat(fileName), json, 'utf-8', function (err) {
     if (err) {
       throw err;
     } else {
-      _logs.default.success("Wrote to ".concat(config.savePath, "/").concat(fileName, " successfully!"));
+      _logs["default"].success("Wrote to ".concat(config.savePath, "/").concat(fileName, " successfully!"));
     }
   });
 }

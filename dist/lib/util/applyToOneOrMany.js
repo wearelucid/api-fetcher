@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.default = applyToOneOrMany;
+exports["default"] = applyToOneOrMany;
 
 function applyToOneOrMany(fn, data) {
   if (Array.isArray(data)) {
