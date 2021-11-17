@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.fetcher = exports["default"] = void 0;
+exports["default"] = exports.fetcher = void 0;
 
 var _bundle = _interopRequireDefault(require("./lib/bundle"));
 

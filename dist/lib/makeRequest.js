@@ -17,7 +17,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 function makeRequest(config, path) {
   var options = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
   return _axios["default"].get(config.apiUrl + path).then(function (response) {
-    _logs["default"].request(response.status, ' ' + response.request.path);
+    _logs["default"].request(response.status, " " + response.request.path);
 
     if (options.transforms) {
       var transformedData = options.transforms.reduce(function (data, transform) {
@@ -37,7 +37,7 @@ function makeRequest(config, path) {
   })["catch"](function (error) {
     _logs["default"].error(error);
 
-    _logs["default"].error(error.response.status, ' ' + error.request.path); // log.error(error.response.statusText, error.response.data)
+    _logs["default"].error(error.response.status, " " + error.request.path); // log.error(error.response.statusText, error.response.data)
 
   });
 }
