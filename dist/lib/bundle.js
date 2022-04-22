@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = bundle;
 
-var _mkdirp = _interopRequireDefault(require("mkdirp"));
+var _fs = _interopRequireDefault(require("fs"));
 
 var _logs = _interopRequireDefault(require("./logs"));
 
@@ -15,7 +15,9 @@ var _fetchData = _interopRequireDefault(require("./fetchData"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -28,14 +30,19 @@ function bundle(bundleName, fetchOptions, _config) {
    */
 
 
-  (0, _mkdirp.default)(config.savePath, function (err) {
-    if (err) return console.error(err);
+  try {
+    _fs.default.mkdirSync(config.savePath, {
+      recursive: true
+    });
 
     _logs.default.success("".concat(config.savePath, " created successfully!"));
-  });
+  } catch (e) {
+    console.error(e);
+  }
   /**
    * Fetch all languages
    */
+
 
   if (config.languages && config.languages.length) {
     Promise.all(config.languages.map(function (language) {

@@ -1,22 +1,21 @@
 {
   "name": "@wearelucid/api-fetcher",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Generates multiple JSON files from fetching API endpoints (i18n supported) 🚀",
   "main": "dist/index.js",
   "repository": "https://github.com/wearelucid/api-fetcher.git",
   "author": "Lucid <buero@wearelucid.ch>",
   "license": "MIT",
   "dependencies": {
-    "@babel/core": "^7.1.0",
-    "axios": "^0.18.0",
-    "bows": "^1.7.0",
-    "figlet": "^1.2.0",
-    "mkdirp": "^0.5.1"
+    "@babel/core": "7.1.0",
+    "axios": "0.18.0",
+    "bows": "1.7.0",
+    "figlet": "1.2.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.1.0",
-    "@babel/plugin-transform-spread": "^7.0.0",
-    "@babel/preset-env": "^7.1.0"
+    "@babel/cli": "7.1.0",
+    "@babel/plugin-transform-spread": "7.0.0",
+    "@babel/preset-env": "7.1.0"
   },
   "scripts": {
     "build": "babel src --out-dir dist"
